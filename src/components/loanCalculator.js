@@ -10,6 +10,8 @@ class LoanCalculator extends React.Component {
         this.handleChange = this.handleChange.bind(this);
 
         this.state = {
+            fresh: true,
+            fetchingRate: false,
             amount: 500,
             months: 12,
             rate: 0
@@ -21,25 +23,46 @@ class LoanCalculator extends React.Component {
     }
 
     getRate() {
-
+        this.setState({fetchingRate: true});
         axios.get('https://heroku-api-demo-staging.herokuapp.com/api/v1/rate', { params: {
             amount: this.state.amount, 
             months: this.state.months
         }}).then(res => {
-            this.setState({rate: res.data.rate__c});
-          });
+            this.setState({
+                fetchingRate: false,
+                rate: res.data.rate__c,
+                fresh: false
+            });
+        });
     }
 
     render() {
+
+        let rateSpan;
+        if(this.state.rate) {
+            rateSpan = <span>Your rate is {this.state.rate}</span>
+        } else if(this.state.fresh) {
+            rateSpan = <span>Click Get my rate</span>
+        } else if(!this.state.fresh) {
+            rateSpan = <span>No rate available</span>
+        }
+
+        let loading;
+        if(this.state.fetchingRate) {
+            loading = <img src={spinner} alt="Waiting for rate"/>
+        }
+
         return(
             <div>
                 <h1>Loan Calculator</h1>
                 <p>
                     <label for="amount">Loan Amount</label>
+                    <br/>
                     <input id="amount" name="amount" type="number" value={this.state.amount} onChange={(e) => this.handleChange('amount', e)}></input>
                 </p>
                 <p>
                     <label for="months">Repayment Terms</label>
+                    <br/>
                     <select id="months" name="months" value={this.state.months} onChange={(e) => this.handleChange('months', e)}>
                     <option selected disabled>-- Repayment --</option>
                     <option value="12">12</option>
@@ -49,8 +72,11 @@ class LoanCalculator extends React.Component {
                     </select>
                 </p>
                 <button onClick={this.getRate}>Get my rate</button>
-                <img src={spinner} alt="Waiting for rate"/>
-                <span>Your rate is {this.state.rate}</span>
+                <br/>
+                {loading}
+                <br/>
+                {rateSpan}
+                
             </div>
         );
     }
