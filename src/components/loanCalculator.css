@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+.h5 {
+    font-family: 'Bebas Neue', cursive;
+}
+p {
+    font-family: 'Prompt', sans-serif;
+}
+span {
+    font-family: 'Prompt', sans-serif;
+}
+.card {
+    margin-top: 20px;
+    border-radius: 0;
+    background-color: rgba(255, 255, 255, .80);
+}
+.btn {
+    border-radius: 0;
+}
+.form-range::-webkit-slider-thumb {
+    border-radius: 0;
+    background-color: #79589F;
+}
+.form-range::-webkit-slider-thumb:active {
+    background-color: #A997BF;
+}
+.form-range::-webkit-slider-runnable-track{
+    background-color: #A997BF;
+    border-radius: 0;
+}
+.btn-primary {
+    border: none;
+    background-color: #A997BF;
+    color: white;
+}
+.btn-primary:hover {
+    border: none;
+    background-color: #79589F;
+    color: white;
+}
